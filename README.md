@@ -18,7 +18,7 @@ Instantly calculate the value of your gold jewelry including base price, making 
 
 ## 🚀 Demo
 You can try a live version here:  
-🔗 Live Demo:
+🔗 Live Demo: [https://pravallikadadi.github.io/Gold-Price-Estimation-UI-New-version/]
 🔗 GitHub Repo:[https://github.com/Pravallikadadi/Gold-Price-Estimation-UI-New-version/]
 
 Or just open `index.html` in any modern browser — no installation needed!
