@@ -92,6 +92,19 @@ body{
   outline:none;
 }
 
+/* ===== REMOVE NUMBER INPUT SCROLL ===== */
+/* Chrome, Edge, Safari */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* Result */
 .result{
   margin-top:20px;
@@ -204,6 +217,13 @@ body{
 </div>
 
 <script>
+/* 🔥 DISABLE MOUSE WHEEL ON NUMBER INPUTS */
+document.querySelectorAll('input[type=number]').forEach(input => {
+  input.addEventListener('wheel', function (e) {
+    e.preventDefault();
+  });
+});
+
 const inputs=document.querySelectorAll("input,select");
 
 function calculate(){
