@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Price Estimator</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:"Segoe UI",sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top,#7b3fe4,#3b0a5f 60%,#220033);
+  color:white;
+  overflow-x:hidden;
+}
+
+/* Card */
+.app{
+  width:420px;
+  background:rgba(80,30,140,0.55);
+  border-radius:28px;
+  padding:26px;
+  box-shadow:0 30px 60px rgba(0,0,0,.5);
+  border:1px solid rgba(255,215,0,.25);
+}
+
+/* Header */
+.header{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.logo{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  object-fit:cover;
+  border:5px solid #ffd700;
+  box-shadow:0 0 35px rgba(255,215,0,.7);
+}
+
+.title{
+  margin-top:12px;
+  font-size:26px;
+  font-weight:700;
+  color:#ffd700;
+}
+
+.subtitle{
+  opacity:.9;
+  margin-top:6px;
+}
+
+/* Inputs */
+.inputs{
+  background:rgba(0,0,0,.25);
+  border-radius:18px;
+  padding:18px;
+  margin-top:20px;
+}
+
+.field{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.field label{
+  font-size:14px;
+  opacity:.9;
+}
+
+.field input,
+.field select{
+  width:160px;
+  padding:10px 14px;
+  border-radius:12px;
+  border:none;
+  font-size:16px;
+  background:#f6f0ff;
+  color:#333;
+  outline:none;
+}
+
+/* Result */
+.result{
+  margin-top:20px;
+  background:rgba(0,0,0,.25);
+  border-radius:18px;
+  padding:18px;
+}
+
+.result-title{
+  text-align:center;
+  color:#ffd700;
+  margin-bottom:12px;
+  font-weight:600;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.total{
+  margin-top:14px;
+  text-align:center;
+}
+
+.total span{
+  display:block;
+}
+
+.total .label{
+  color:#ffef9a;
+  font-size:18px;
+  margin-bottom:4px;
+}
+
+.total .value{
+  font-size:34px;
+  font-weight:800;
+  color:#ffd700;
+  text-shadow:0 0 15px rgba(255,215,0,.8);
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <img class="logo"
+      src="https://images.pexels.com/photos/2219195/pexels-photo-2219195.jpeg?auto=compress&cs=tinysrgb&w=800"
+      alt="Gold Rings">
+    <div class="title">Gold Price Estimator</div>
+    <div class="subtitle">Calculate your gold value instantly</div>
+  </div>
+
+  <div class="inputs">
+    <div class="field">
+      <label>Weight (grams)</label>
+      <input type="number" id="weight" value="10">
+    </div>
+
+    <div class="field">
+      <label>Purity</label>
+      <select id="purity">
+        <option value="0.916" selected>22K (91.6%)</option>
+        <option value="1">24K (100%)</option>
+        <option value="0.75">18K (75%)</option>
+        <option value="0.585">14K (58.5%)</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Rate per Gram (₹)</label>
+      <input type="number" id="rate" value="6000">
+    </div>
+
+    <div class="field">
+      <label>Making Charges (%)</label>
+      <input type="number" id="making" value="10">
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-title">• Estimation Result •</div>
+
+    <div class="row">
+      <span>Base Price</span>
+      <span id="base">₹54,960</span>
+    </div>
+
+    <div class="row">
+      <span>Making Charges</span>
+      <span id="makingCharge">₹5,496</span>
+    </div>
+
+    <div class="row">
+      <span>GST (3%)</span>
+      <span id="gst">₹1,813</span>
+    </div>
+
+    <div class="total">
+      <span class="label">Total Gold Price</span>
+      <span class="value" id="total">₹62,269</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const inputs=document.querySelectorAll("input,select");
+
+function calculate(){
+  const w=+weight.value||0;
+  const p=+purity.value||1;
+  const r=+rate.value||0;
+  const m=+making.value||0;
+
+  const base=w*r*p;
+  const mc=base*m/100;
+  const gst=(base+mc)*0.03;
+  const total=base+mc+gst;
+
+  baseEl.innerText="₹"+Math.round(base).toLocaleString();
+  makingCharge.innerText="₹"+Math.round(mc).toLocaleString();
+  gstEl.innerText="₹"+Math.round(gst).toLocaleString();
+  totalEl.innerText="₹"+Math.round(total).toLocaleString();
+}
+
+const baseEl=document.getElementById("base");
+const makingCharge=document.getElementById("makingCharge");
+const gstEl=document.getElementById("gst");
+const totalEl=document.getElementById("total");
+
+inputs.forEach(i=>i.addEventListener("input",calculate));
+calculate();
+</script>
+
+</body>
+</html>
